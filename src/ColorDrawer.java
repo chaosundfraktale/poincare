@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by tim on 17.03.16.
@@ -10,17 +11,25 @@ public class ColorDrawer
             {
                 Container contentpane = frame.getContentPane();
                 contentpane.getGraphics().clearRect(0,0,contentpane.getWidth(),contentpane.getHeight());
-                Graphics graphics = contentpane.getGraphics();
-                for (int x = 0; x < contentpane.getWidth(); x++)
+                Graphics2D graphics = (Graphics2D)contentpane.getGraphics();
+
+                BufferedImage image = new BufferedImage(colormatrix.length, colormatrix[0].length,BufferedImage.TYPE_INT_RGB);
+
+                for (int x = 0; x < colormatrix.length; x++)
                     {
-                        for (int y = 0; y < contentpane.getHeight(); y++)
+                        for (int y = 0; y < colormatrix[0].length; y++)
                             {
-                                if (colormatrix[x][y] != null)
-                                    {
-                                        graphics.setColor(colormatrix[x][y]);
-                                        graphics.drawRect(x, y, 1, 1);
-                                    }
+                                if (colormatrix[x][y]!=null)
+                                {
+                                    image.setRGB(x, y, colormatrix[x][y].getRGB());
+                                }
+                                else
+                                {
+                                    image.setRGB(x, y, Color.WHITE.getRGB());
+                                }
                             }
                     }
+
+                    graphics.drawImage(image, null, 0, 0);
             }
     }
